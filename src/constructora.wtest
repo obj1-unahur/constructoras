@@ -1,0 +1,76 @@
+import sindicato.*
+import profesionales.*
+import constructora.*
+
+describe "Constructora" {
+	const uocraCastelar = new Sindicato()
+	const sigloXXI = new Sindicato()
+	const amigosVlad = new Sindicato()
+	const castelarWorkers = new Sindicato()
+	
+	const juana = new TrabajadorAfiliado()
+	const melina = new TrabajadorCooperativista()
+	const rocio = new TrabajadorLibre()
+	const luciana = new TrabajadorLibre()
+	
+	const constructora = new Constructora()	
+	
+	fixture {
+		uocraCastelar.localidad("Castelar")
+		uocraCastelar.honorariosRecomendados(350)
+		sigloXXI.localidad("Villa Tesei")
+		sigloXXI.honorariosRecomendados(280)
+		amigosVlad.localidad("Aldo Bonzi")
+		amigosVlad.honorariosRecomendados(420)
+		castelarWorkers.localidad("Castelar")
+		castelarWorkers.honorariosRecomendados(880)
+		
+		juana.sindicato(sigloXXI)
+		melina.sindicato(amigosVlad)
+		rocio.sindicato(castelarWorkers)
+		rocio.honorariosPorHora(500)
+		rocio.localidadesDondePuedeTrabajar(
+			#{"Villa Tesei", "Ciudad Evita", "Castelar"}
+		)
+		luciana.sindicato(sigloXXI)
+		luciana.honorariosPorHora(320)
+		luciana.localidadesDondePuedeTrabajar(
+			#{"Villa Tesei", "El Palomar"}
+		)
+		
+		constructora.trabajadores(
+			#{juana, melina, rocio, luciana}
+		)
+		constructora.honorarioReferencia(350)
+	}
+	
+	test "conoce sus trabajadores baratos" {
+		assert.equals(
+			#{juana, melina, luciana}, 
+			constructora.trabajadoresBaratos()
+		)
+	}
+	
+	test "sabe cuáles son los sindicatos que intervienen" {
+		assert.equals(
+			#{sigloXXI, amigosVlad, castelarWorkers},
+			constructora.sindicatosIntervinientes()
+		)
+	}
+	
+	test "devuelve su trabajador más caro" {
+		assert.equals(rocio, constructora.trabajadorMasCaro())
+	}
+	
+	test "sabe si una localidad está cubierta" {
+		assert.that(constructora.estaCubierta("Villa Tesei"))
+		assert.that(constructora.estaCubierta("Ciudad Evita"))
+		assert.notThat(constructora.estaCubierta("Tapiales"))
+	}
+	
+	test "puede calcular cuántos pertenecen a un sindicato" {
+		assert.equals(2, constructora.trabajadoresPorSindicato(sigloXXI))
+		assert.equals(1, constructora.trabajadoresPorSindicato(castelarWorkers))
+		assert.equals(0, constructora.trabajadoresPorSindicato(uocraCastelar))
+	}
+}
