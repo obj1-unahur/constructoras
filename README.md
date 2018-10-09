@@ -27,7 +27,7 @@ A partir de este modelo, tiene que poder obtenerse para una empresa:
   O sea, aquellos cuyo honorario es menor al honorario de referencia de la empresa.
 - el conjunto de los _sindicatos intervinientes_, o sea, los sindicatos a los que pertenecen sus trabajadores, sin repetidos.
 - el trabajador _más caro_ (o sea, que sus honorarios son los más altos).
-- si un determinado _sindicato interviene_ (o sea, que haya al menos un trabajador que pertenezca a él).
+- si una determinada localidad _está cubierta_ (o sea, que haya al menos un trabajador que pueda trabajar allí).
 - cuántos (un número) de sus trabajadores contratados pertenece a un determinado sindicato.
 - **esta es más difícil**  
   dado un trabajador, si es _poco atractivo_ para la empresa.  
