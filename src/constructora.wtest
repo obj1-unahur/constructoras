@@ -73,4 +73,27 @@ describe "Constructora" {
 		assert.equals(1, constructora.trabajadoresPorSindicato(castelarWorkers))
 		assert.equals(0, constructora.trabajadoresPorSindicato(uocraCastelar))
 	}
+	
+	test "le puede pagar a un afiliado" {
+		juana.cobrar(1000)
+		assert.equals(200, sigloXXI.donacionesRecibidas())
+	}
+	
+	test "le puede pagar a un cooperativista" {
+		melina.cobrar(850)
+		assert.equals(850, cooperativaDelOeste.totalRecaudado())
+	}
+	
+	test "le puede pagar a un trabajador libre" {
+		rocio.cobrar(240)
+		assert.equals(240, rocio.totalRecaudado())
+	}
+	
+	test "pueden pasarse plata entre trabajadores libres" {
+		rocio.cobrar(800)
+		rocio.pasarDinero(luciana, 150)
+		
+		assert.equals(650, rocio.totalRecaudado())
+		assert.equals(150, luciana.totalRecaudado())
+	}
 }

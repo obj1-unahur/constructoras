@@ -1,4 +1,5 @@
-// esta clase está completa, no necesita nada más
+import sindicato.*
+
 class TrabajadorCooperativista {
 	var sindicato
 
@@ -14,6 +15,10 @@ class TrabajadorCooperativista {
 	}
 
 	method honorariosPorHora() { return 250 }
+	
+	method cobrar(importe) {
+		cooperativaDelOeste.recaudar(importe)
+	}
 }
 
 class TrabajadorAfiliado {
@@ -33,12 +38,17 @@ class TrabajadorAfiliado {
 	method puedeTrabajarEn(localidad) {
 		return self.localidadesDondePuedeTrabajar().contains(localidad)
 	}
+	
+	method cobrar(importe) {
+		sindicato.recibirDonacion(importe * 0.2)
+	}
 }
 
 class TrabajadorLibre {
 	var sindicato
 	var localidadesDondePuedeTrabajar = #{}
 	var honorariosPorHora
+	var totalRecaudado = 0
 
 	method sindicato() { return sindicato }
 	method sindicato(sind) { sindicato = sind }
@@ -54,7 +64,18 @@ class TrabajadorLibre {
 	method honorariosPorHora(hono) { honorariosPorHora = hono }
 	method honorariosPorHora() { return honorariosPorHora }
 	
+	method totalRecaudado() { return totalRecaudado }
+	
 	method puedeTrabajarEn(localidad) {
 		return self.localidadesDondePuedeTrabajar().contains(localidad)
+	}
+	
+	method cobrar(importe) {
+		totalRecaudado += importe
+	}
+	
+	method pasarDinero(destinatario, importe) {
+		totalRecaudado -= importe
+		destinatario.cobrar(importe)
 	}
 }
